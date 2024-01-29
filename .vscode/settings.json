@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "set.h": "c",
+        "nfnetlink.h": "c",
+        "errno.h": "c"
+    }
+}

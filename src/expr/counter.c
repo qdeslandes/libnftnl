@@ -100,6 +100,8 @@ nftnl_expr_counter_parse(struct nftnl_expr *e, struct nlattr *attr)
 	struct nftnl_expr_counter *ctr = nftnl_expr_data(e);
 	struct nlattr *tb[NFTA_COUNTER_MAX+1] = {};
 
+	// fprintf(stderr, "parsing a counter epxression\n");
+
 	if (mnl_attr_parse_nested(attr, nftnl_expr_counter_cb, tb) < 0)
 		return -1;
 

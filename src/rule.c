@@ -382,10 +382,12 @@ static int nftnl_rule_parse_expr(struct nlattr *nest, struct nftnl_rule *r)
 	struct nftnl_expr *expr;
 	struct nlattr *attr;
 
+	// fprintf(stderr, "Got a nested attribute\n");
 	mnl_attr_for_each_nested(attr, nest) {
 		if (mnl_attr_get_type(attr) != NFTA_LIST_ELEM)
 			return -1;
 
+		// fprintf(stderr, "Got a nested attribute\n");
 		expr = nftnl_expr_parse(attr);
 		if (expr == NULL)
 			return -1;
@@ -441,6 +443,7 @@ int nftnl_rule_nlmsg_parse(const struct nlmsghdr *nlh, struct nftnl_rule *r)
 	struct nlattr *tb[NFTA_RULE_MAX+1] = {};
 	struct nfgenmsg *nfg = mnl_nlmsg_get_payload(nlh);
 	int ret;
+	// fprintf(stderr, "nftnl_rule_nlmsg_parse an expression\n");
 
 	if (mnl_attr_parse(nlh, sizeof(*nfg), nftnl_rule_parse_attr_cb, tb) < 0)
 		return -1;
@@ -466,6 +469,7 @@ int nftnl_rule_nlmsg_parse(const struct nlmsghdr *nlh, struct nftnl_rule *r)
 		r->flags |= (1 << NFTNL_RULE_HANDLE);
 	}
 	if (tb[NFTA_RULE_EXPRESSIONS]) {
+		// fprintf(stderr, "found an expression\n");
 		ret = nftnl_rule_parse_expr(tb[NFTA_RULE_EXPRESSIONS], r);
 		if (ret < 0)
 			return ret;
